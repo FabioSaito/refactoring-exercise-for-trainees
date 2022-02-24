@@ -19,8 +19,6 @@ class PurchasesController < ApplicationController
              end
 
       if user.valid?
-        # puts "\n\n -- order items -- \n #{address_params}\n ------------------\n"
-
         order = OrderCreator.new(user, address_params).call
 
         cart.items.each do |item|
@@ -32,7 +30,6 @@ class PurchasesController < ApplicationController
               shipping_costs_cents: shipping_costs,
               paid_price_cents: item.sale.unit_price_cents + shipping_costs
             )
-            # puts "\n\n -- order items -- \n #{order.items.inspect}\n ------------------\n"
           end
         end
 
