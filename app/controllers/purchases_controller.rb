@@ -9,7 +9,7 @@ class PurchasesController < ApplicationController
     user = UserCreator.new(cart, purchase_params).call
     
     return render_response('invalid_user', user) unless user.valid?
-    order = OrderCreator.new(user, address_params).call
+    order = OrderInstantiator.new(user, address_params).call
     IncludeOrderItemsCreator.new(cart, order).call
     order.save
     order.valid? ? (return render_response('valid_order', order)) : (return render_response('invalid_order', order))

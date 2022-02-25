@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe OrderCreator do
+RSpec.describe OrderInstantiator do
 
-  context "creating orders" do
+  context "instantiating orders" do
     let(:user) { build_stubbed(:user) }
 
     let!(:address_params) do {
@@ -30,7 +30,7 @@ RSpec.describe OrderCreator do
     }
     
     it "return expected order" do
-      order = OrderCreator.new(user, address_params).call
+      order = OrderInstantiator.new(user, address_params).call
       expect(order).to have_attributes(subject.attributes)
     end
   end

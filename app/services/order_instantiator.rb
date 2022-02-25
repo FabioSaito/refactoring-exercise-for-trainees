@@ -1,4 +1,4 @@
-class OrderCreator
+class OrderInstantiator
   def initialize(user, address_params)
     @user = user
     @address_params = address_params
