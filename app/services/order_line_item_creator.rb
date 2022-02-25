@@ -1,4 +1,5 @@
 class OrderLineItemCreator
+  SHIPPING_COST = 100
   def initialize(order, item)
     @order = order
     @item = item
@@ -9,12 +10,8 @@ class OrderLineItemCreator
       order: @order,
       sale: @item.sale,
       unit_price_cents: @item.sale.unit_price_cents,
-      shipping_costs_cents: shipping_costs,
-      paid_price_cents: @item.sale.unit_price_cents + shipping_costs
+      shipping_costs_cents: SHIPPING_COST,
+      paid_price_cents: @item.sale.unit_price_cents + SHIPPING_COST
     )
-  end
-
-  def shipping_costs
-    100
   end
 end
