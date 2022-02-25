@@ -5,12 +5,6 @@ class OrderCreator
   end
 
   def call
-    create_order
-  end
-  
-  private
-
-  def create_order
     Order.new(
       user: @user,
       first_name: @user.first_name,
