@@ -7,13 +7,19 @@ class PurchasesController < ApplicationController
 
     return render_response('invalid_cart') unless cart
     user = UserCreator.new(cart, purchase_params).call
-    
+
     return render_response('invalid_user', user) unless user.valid?
     order = OrderInstantiator.new(user, address_params).call
     IncludeOrderItemsCreator.new(cart, order).call
     order.save
-    order.valid? ? (return render_response('valid_order', order)) : (return render_response('invalid_order', order))
+
+    if order.valid?
+      render_response('valid_order', order)
+    else
+      render_response('invalid_order', order)
+    end
   end
+
 
   private
 
@@ -40,9 +46,7 @@ class PurchasesController < ApplicationController
       render json: { errors: [{ message: 'Gateway not supported!' }] }, status: :unprocessable_entity      
     when 'invalid_cart'
       render json: { errors: [{ message: 'Cart not found!' }] }, status: :unprocessable_entity
-    when 'invalid_order'
-      render json: { errors: obj.errors.map(&:full_message).map { |message| { message: message } } }, status: :unprocessable_entity
-    when 'invalid_user'
+    when 'invalid_order', 'invalid_user'
       render json: { errors: obj.errors.map(&:full_message).map { |message| { message: message } } }, status: :unprocessable_entity
     when 'valid_order'
       render json: { status: :success, order: { id: obj.id } }, status: :ok
